@@ -25,7 +25,6 @@ const createContact = asyncHandler(async (req, res) => {
         },
         "_id"
     );
-    console.log("The existing contact is :", existingContact);
     if (existingContact) {
         return res.status(400).json({
             message:
