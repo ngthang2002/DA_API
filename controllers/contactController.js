@@ -95,19 +95,26 @@ const updateContact = asyncHandler(async (req, res) => {
 //@route DELETE /api/contacts/:id
 //@access private
 const deleteContact = asyncHandler(async (req, res) => {
+    console.log("The user id is :", req.user.id);
     const contact = await Contact.findById(req.params.id);
     if (!contact) {
         res.status(404);
         throw new Error("Contact not found");
     }
-    if (contact.user_id.toString() !== req.user.id) {
+    if (contact.user_id.toString() == req.user.id) {
         res.status(403);
         throw new Error(
             "User don't have permission to update other user contacts"
         );
     }
-    await Contact.findByIdAndRemove(req.params.id);
-    res.status(200).json(contact);
+    try {
+        await Contact.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: "Contact deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+        res.status(500);
+        throw new Error("Failed to delete the contact");
+    }
 });
 
 module.exports = {

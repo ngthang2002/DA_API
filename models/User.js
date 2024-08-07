@@ -23,7 +23,6 @@ const userSchema = mongoose.Schema(
         roles: { type: String, required: true },
         postCount: { type: Number, default: 0 },
         followersCount: { type: Number, default: 0 },
-        following: [{ type: Types.ObjectId, ref: "User" }],
         followingCount: { type: Number, default: 0 },
         isActive: { type: Boolean, default: true },
         phone: {
